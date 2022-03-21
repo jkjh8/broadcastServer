@@ -1,0 +1,8 @@
+/node_modules
+/public
+/logs
+/files
+
+*.key
+*.crt
+*.pem

@@ -1,0 +1,19 @@
+{
+  "name": "broadcastserver",
+  "version": "0.0.1",
+  "description": "broadcast server for TD",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15",
+    "winston": "^3.6.0",
+    "winston-daily-rotate-file": "^4.6.1",
+    "winston-mongodb": "^5.0.7"
+  }
+}
