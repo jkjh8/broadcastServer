@@ -9,7 +9,7 @@ app.use(
 )
 const router = require('./routes/index')
 
-// redirect to HTTPS
+// **** redirect to HTTPS
 // app.get('*', (req, res, next) => {
 //   console.log('req.secure == ' + req.secure)
 //   if (req.secure) {
