@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const logger = require('config/logger')
 
 mongoose
-  .connect('mongodb://localhost:27017/broadcastserver', {
+  .connect(process.env.DB_URL, {
     useNewUrlParser: true
   })
   .then(() => {

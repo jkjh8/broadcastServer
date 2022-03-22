@@ -1,18 +1,22 @@
+/*    env file and path     */
+const path = require('path')
 require('dotenv').config()
 require('app-module-path').addPath(__dirname)
-const logger = require('./config/logger')
-const path = require('path')
 
-// ****** connect db ******
+/****** connect db ******/
 require('./db')
 
+/****** init express ******/
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const httpLogger = require('morgan')
+const app = express()
+
+/******     logger      ******/
+app.logger = require('./config/logger')
 
 // ****** session mongodb setup ******
-const app = express()
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 
@@ -35,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: 'mongodb://localhost:27017/broadcastserver'
+      mongoUrl: process.env.DB_URL
     })
   })
 )
@@ -45,7 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // ****** loag Router ******
 const router = require('./routes/index')
-const { default: mongoose } = require('mongoose')
 
 // ****** redirect to HTTPS ******
 // app.get('*', (req, res, next) => {
