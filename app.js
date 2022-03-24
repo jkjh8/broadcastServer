@@ -23,7 +23,9 @@ const MongoStore = require('connect-mongo')
 // ****** Cors ******
 app.use(
   cors({
-    origin: ['https://locahost:3443', 'http://localhost:3000'],
+    origin: function (origin, callback) {
+      callback(null, origin)
+    },
     credentials: true
   })
 )
@@ -43,6 +45,12 @@ app.use(
     })
   })
 )
+
+/****** passport init ******/
+const passport = require('passport')
+app.use(passport.initialize())
+app.use(passport.session())
+require('api/passport')
 
 // ****** Static Folders ******
 app.use(express.static(path.join(__dirname, 'public')))
