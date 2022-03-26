@@ -8,6 +8,7 @@ require('./db')
 
 /****** init express ******/
 const express = require('express')
+const passport = require('passport')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const httpLogger = require('morgan')
@@ -38,8 +39,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL
     })
@@ -47,10 +48,10 @@ app.use(
 )
 
 /****** passport init ******/
-const passport = require('passport')
+const passportConfig = require('api/passport')
+passportConfig()
 app.use(passport.initialize())
 app.use(passport.session())
-require('api/passport')
 
 // ****** Static Folders ******
 app.use(express.static(path.join(__dirname, 'public')))
