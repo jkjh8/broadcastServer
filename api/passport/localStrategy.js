@@ -14,7 +14,6 @@ module.exports = () => {
           }
           if (await user.verifyPassword(password)) {
             delete user['password']
-            console.log(user.password)
             return done(null, user, { message: '로그인을 성공했습니다.' })
           }
           done(null, false, { message: '비밀번호가 일치 하지 않습니다.' })

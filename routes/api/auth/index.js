@@ -56,9 +56,10 @@ router.post('/', (req, res, next) => {
     }
     return req.login(user, (err) => {
       if (err) {
+        logger.error(`사용자 로그인 오류 ${err}`)
         return res.status(401).json({ status: false, error: err })
       }
-      logger.inf(`사용자 로그인 ${user.email}`)
+      logger.info(`사용자 로그인 ${user.email}`)
       res.json({ status: true, ...info })
     })
   })(req, res, next)
