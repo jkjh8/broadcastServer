@@ -48,6 +48,7 @@ router.post('/register', async (req, res) => {
 router.post('/', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
+      logger.error(`사용자 로그인 오류 ${err}`)
       return res.status(500).json({ status: false, error: err })
     }
     if (!user) {
@@ -57,6 +58,7 @@ router.post('/', (req, res, next) => {
       if (err) {
         return res.status(401).json({ status: false, error: err })
       }
+      logger.inf(`사용자 로그인 ${user.email}`)
       res.json({ status: true, ...info })
     })
   })(req, res, next)
@@ -64,10 +66,12 @@ router.post('/', (req, res, next) => {
 
 router.get('/logout', (req, res) => {
   try {
+    logger.info(`사용자 로그아웃 ${req.user.email}`)
     req.logout()
     res.status(200).json({ user: null, message: 'logout completed' })
   } catch (error) {
-    res.status(500).json({ user: null, message: 'logout failed' })
+    logger.error(`사용자 로그아웃 오류 ${error}`)
+    res.status(500).json({ user: null, message: 'logout failed', error: error })
   }
 })
 
