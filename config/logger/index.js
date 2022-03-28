@@ -82,7 +82,7 @@ const transports = [
     options: {
       useUnifiedTopology: true
     },
-    collection: 'lowlevellog',
+    collection: 'devicelogs',
     format: winston.format.combine(
       winston.format.timestamp(),
       winston.format.json()
