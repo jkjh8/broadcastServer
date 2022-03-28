@@ -75,19 +75,19 @@ const transports = [
     filename: '%DATE%.all.log',
     maxFiles: 30,
     zippedArchive: true
+  }),
+  new winston.transports.MongoDB({
+    level: 'info',
+    db: 'mongodb://localhost:27017/broadcastserver',
+    options: {
+      useUnifiedTopology: true
+    },
+    collection: 'lowlevellog',
+    format: winston.format.combine(
+      winston.format.timestamp(),
+      winston.format.json()
+    )
   })
-  // new winston.transports.MongoDB({
-  //   level: 'info',
-  //   db: 'mongodb://localhost:27017/mediaserver',
-  //   options: {
-  //     useUnifiedTopology: true
-  //   },
-  //   collection: 'serverlogs',
-  //   format: winston.format.combine(
-  //     winston.format.timestamp(),
-  //     winston.format.json()
-  //   )
-  // })
 ]
 
 const Logger = winston.createLogger({
