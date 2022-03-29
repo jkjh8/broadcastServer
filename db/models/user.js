@@ -9,10 +9,11 @@ const userSchema = new mongoose.Schema(
     level: { type: Number, default: 0 },
     zones: { type: Array },
     numberOfLogin: { type: Number, default: 0 },
-    color: { type: String, default: '#91ECEC' }
+    color: { type: String, default: '#91ECEC' },
+    lastLogin: { type: Date, default: new Date() }
   },
   {
-    timestamp: true
+    timestamps: true
   }
 )
 

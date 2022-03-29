@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     console.log(req.query)
     const searchOptions = []
 
-    if (search && search !== undefined) {
+    if (search && search !== undefined && search !== 'null') {
       searchOptions.push({ $text: { $search: search } })
     }
 

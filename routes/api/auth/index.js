@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+  passport.authenticate('local', async (err, user, info) => {
     if (err) {
       logger.error(`사용자 로그인 오류 ${err}`)
       return res.status(500).json({ status: false, error: err })
@@ -54,14 +54,19 @@ router.post('/', (req, res, next) => {
     if (!user) {
       return res.json({ status: false, ...info })
     }
-    return req.login(user, (err) => {
+
+    req.login(user, (err) => {
       if (err) {
         logger.error(`사용자 로그인 오류 ${err}`)
         return res.status(401).json({ status: false, error: err })
       }
-      logger.info(`사용자 로그인 ${user.email}`)
-      res.json({ status: true, ...info })
     })
+    User.updateOne(
+      { email: user.email },
+      { $set: { lastLogin: new Date(), numberOfLogin: user.numberOfLogin + 1 } }
+    ).exec()
+    logger.info(`사용자 로그인 ${user.email}`)
+    res.json({ status: true, ...info })
   })(req, res, next)
 })
 
@@ -73,6 +78,16 @@ router.get('/logout', (req, res) => {
   } catch (error) {
     logger.error(`사용자 로그아웃 오류 ${error}`)
     res.status(500).json({ user: null, message: 'logout failed', error: error })
+  }
+})
+
+router.get('/users', async (req, res) => {
+  try {
+    const r = await User.find({}, { password: 0 })
+    res.json({ users: r })
+  } catch (err) {
+    logger.error(`사용자 정보 확인 오류 ${err}`)
+    res.status(500).json({ error: err })
   }
 })
 
