@@ -11,8 +11,10 @@ def run_socket():
     sock.bind(("127.0.0.1", 54123))
     while True:
         data, addr = sock.recvfrom(2048)
-        print(data)
-
+        for i in data:
+            if i == 0:
+                break
+            print (i)
 
 def get_barix_ext(ipaddr):
     url= "http://{}/status".format(ipaddr)
