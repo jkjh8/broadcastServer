@@ -71,4 +71,10 @@ const router = require('./routes/index')
 
 app.use('/', router)
 
+const spawn = require('child_process').spawn
+const result = spawn('python', ['./py/barix.py'])
+
+result.stdout.on('data', function (data) {
+  console.log(data.toString())
+})
 module.exports = app
